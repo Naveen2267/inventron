@@ -80,8 +80,8 @@ A next-generation platform designed to optimize supply chain operations by combi
 1. **Clone the repo**
 
    ```bash
-   git clone https://github.com/Siddharth-Basale/HTF-I01.git
-   cd HTF-I01
+   git clone https://github.com/Siddharth-Basale/inventron.git
+   cd inventron
    ```
 
 2. **Install dependencies**
