@@ -2,7 +2,7 @@ from phi.agent import Agent
 from phi.tools.sql import SQLTools
 from phi.model.google import Gemini
 
-db_url = "sqlite:///db.sqlite3"  # Adjust path if necessary
+db_url = "C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\db.sqlite3"  # Adjust path if necessary
 agent = Agent(tools=[SQLTools(db_url=db_url)], model=Gemini(id="gemini-2.0-flash-exp", temperature=0.4))
 
 # Your structured prompt

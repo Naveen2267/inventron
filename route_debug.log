@@ -8504,3 +8504,149 @@ manufacturer.models.Manufacturer.DoesNotExist: Manufacturer matching query does 
 2025-04-09 06:13:42,653 - DEBUG - response_closed.complete
 2025-04-09 06:13:42,654 - DEBUG - close.started
 2025-04-09 06:13:42,654 - DEBUG - close.complete
+2025-10-17 18:57:09,457 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 18:59:08,920 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 18:59:46,243 - WARNING - Not Found: /api/placeholder/300/300
+2025-10-17 19:01:12,653 - WARNING - Not Found: /api/placeholder/300/300
+2025-10-17 19:01:37,915 - WARNING - Not Found: /api/placeholder/300/300
+2025-10-17 19:02:41,984 - ERROR - Internal Server Error: /manufacturer/register/
+Traceback (most recent call last):
+  File "C:\Users\navee\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\navee\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\manufacturer\views.py", line 56, in manufacturer_register
+    send_email(
+  File "C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\utils\email.py", line 20, in send_email
+    email.send()
+  File "C:\Users\navee\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\mail\message.py", line 301, in send
+    return self.get_connection(fail_silently).send_messages([self])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\navee\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\mail\backends\smtp.py", line 128, in send_messages
+    new_conn_created = self.open()
+                       ^^^^^^^^^^^
+  File "C:\Users\navee\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\mail\backends\smtp.py", line 95, in open
+    self.connection.login(self.username, self.password)
+  File "C:\Users\navee\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 750, in login
+    raise last_exception
+  File "C:\Users\navee\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 739, in login
+    (code, resp) = self.auth(
+                   ^^^^^^^^^^
+  File "C:\Users\navee\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 662, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-33bdd02793dsm970437a91.3 - gsmtp')
+2025-10-17 19:35:09,917 - INFO - C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\supplychain\settings.py changed, reloading.
+2025-10-17 19:35:25,110 - INFO - C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\supplychain\settings.py changed, reloading.
+2025-10-17 19:40:48,146 - INFO - C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\supplychain\settings.py changed, reloading.
+2025-10-17 19:41:26,818 - INFO - C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\supplychain\settings.py changed, reloading.
+2025-10-17 19:41:34,828 - INFO - C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\supplychain\settings.py changed, reloading.
+2025-10-17 19:41:45,247 - INFO - C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\supplychain\settings.py changed, reloading.
+2025-10-17 19:41:51,152 - INFO - C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\supplychain\settings.py changed, reloading.
+2025-10-17 19:42:00,526 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 19:42:07,825 - WARNING - Not Found: /api/placeholder/300/300
+2025-10-17 19:49:40,617 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 19:55:21,216 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 19:56:30,117 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 20:01:36,503 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 20:03:58,282 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:17:53,114 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:21:45,378 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:22:47,054 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:23:35,440 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:25:04,860 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:27:23,760 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:33:55,001 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:34:15,806 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:34:29,857 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:34:54,164 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:35:08,090 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:35:08,099 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:35:12,559 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:35:25,990 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:35:54,852 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:35:58,513 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:36:33,962 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:36:33,969 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:36:40,249 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:36:52,428 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:37:11,275 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:37:14,913 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:37:20,553 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:37:20,561 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:37:25,076 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:39:33,952 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:39:41,941 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:39:44,854 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:39:44,861 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:39:48,380 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:39:56,250 - WARNING - Not Found: /.well-known/appspecific/com.chrome.devtools.json
+2025-10-17 21:44:39,164 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:49:55,721 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 21:58:12,249 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 23:22:29,522 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 23:25:22,054 - DEBUG - Converted retries value: 2 -> Retry(total=2, connect=None, read=None, redirect=None, status=None)
+2025-10-17 23:25:22,054 - DEBUG - Converted retries value: 2 -> Retry(total=2, connect=None, read=None, redirect=None, status=None)
+2025-10-17 23:25:22,054 - INFO - Geocoder initialized successfully
+2025-10-17 23:25:22,054 - DEBUG - Nominatim.geocode: https://nominatim.openstreetmap.org/search?q=HUBLI%2C+KA&format=json&limit=1
+2025-10-17 23:25:22,055 - DEBUG - Starting new HTTPS connection (1): nominatim.openstreetmap.org:443
+2025-10-17 23:25:23,126 - DEBUG - https://nominatim.openstreetmap.org:443 "GET /search?q=HUBLI%2C+KA&format=json&limit=1 HTTP/11" 200 452
+2025-10-17 23:25:23,127 - DEBUG - Nominatim.geocode: https://nominatim.openstreetmap.org/search?q=Vasco+da+gama%2C+Goa&format=json&limit=1
+2025-10-17 23:25:24,204 - DEBUG - https://nominatim.openstreetmap.org:443 "GET /search?q=Vasco+da+gama%2C+Goa&format=json&limit=1 HTTP/11" 200 429
+2025-10-17 23:25:24,206 - DEBUG - Starting new HTTPS connection (1): api.openrouteservice.org:443
+2025-10-17 23:25:25,476 - DEBUG - https://api.openrouteservice.org:443 "POST /v2/directions/driving-car HTTP/11" 200 None
+2025-10-17 23:26:31,706 - ERROR - Internal Server Error: /supplier/ai-suggestions/
+2025-10-17 23:27:30,600 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 23:28:18,408 - DEBUG - Converted retries value: 2 -> Retry(total=2, connect=None, read=None, redirect=None, status=None)
+2025-10-17 23:28:18,409 - DEBUG - Converted retries value: 2 -> Retry(total=2, connect=None, read=None, redirect=None, status=None)
+2025-10-17 23:28:18,409 - DEBUG - Nominatim.geocode: https://nominatim.openstreetmap.org/search?q=HUBLI%2C+KA&format=json&limit=1
+2025-10-17 23:28:18,410 - DEBUG - Starting new HTTPS connection (1): nominatim.openstreetmap.org:443
+2025-10-17 23:28:19,035 - DEBUG - https://nominatim.openstreetmap.org:443 "GET /search?q=HUBLI%2C+KA&format=json&limit=1 HTTP/11" 200 452
+2025-10-17 23:28:19,035 - DEBUG - RateLimiter sleep(0.372918800014304)
+2025-10-17 23:28:19,410 - DEBUG - Nominatim.geocode: https://nominatim.openstreetmap.org/search?q=Vasco+da+gama%2C+Goa&format=json&limit=1
+2025-10-17 23:28:20,104 - DEBUG - https://nominatim.openstreetmap.org:443 "GET /search?q=Vasco+da+gama%2C+Goa&format=json&limit=1 HTTP/11" 200 429
+2025-10-17 23:28:20,106 - DEBUG - Starting new HTTPS connection (1): api.openrouteservice.org:443
+2025-10-17 23:28:21,330 - DEBUG - https://api.openrouteservice.org:443 "POST /v2/directions/driving-car HTTP/11" 200 None
+2025-10-17 23:28:53,268 - ERROR - Internal Server Error: /manufacturer/analyze-supplier/12/
+2025-10-17 23:29:57,487 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 23:31:19,688 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 23:39:52,580 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-17 23:39:53,817 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-18 00:17:35,423 - INFO - C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\supplychain\settings.py changed, reloading.
+2025-10-18 00:17:43,029 - INFO - C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\supplychain\settings.py changed, reloading.
+2025-10-18 00:18:06,525 - INFO - C:\Users\navee\OneDrive\Desktop\chikkodi\HTF-I01\supplychain\settings.py changed, reloading.
+2025-10-18 00:32:26,683 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-18 00:35:27,362 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-18 00:35:52,001 - ERROR - Internal Server Error: /supplier/ai-suggestions/
+2025-10-18 00:37:27,046 - DEBUG - Converted retries value: 2 -> Retry(total=2, connect=None, read=None, redirect=None, status=None)
+2025-10-18 00:37:27,046 - DEBUG - Converted retries value: 2 -> Retry(total=2, connect=None, read=None, redirect=None, status=None)
+2025-10-18 00:37:27,046 - INFO - Geocoder initialized successfully
+2025-10-18 00:37:27,047 - DEBUG - Nominatim.geocode: https://nominatim.openstreetmap.org/search?q=HUBLI%2C+KA&format=json&limit=1
+2025-10-18 00:37:27,048 - DEBUG - Starting new HTTPS connection (1): nominatim.openstreetmap.org:443
+2025-10-18 00:37:27,936 - DEBUG - https://nominatim.openstreetmap.org:443 "GET /search?q=HUBLI%2C+KA&format=json&limit=1 HTTP/11" 200 452
+2025-10-18 00:37:27,937 - DEBUG - RateLimiter sleep(0.11025480000535026)
+2025-10-18 00:37:28,048 - DEBUG - Nominatim.geocode: https://nominatim.openstreetmap.org/search?q=Vasco+da+gama%2C+Goa&format=json&limit=1
+2025-10-18 00:37:29,071 - DEBUG - https://nominatim.openstreetmap.org:443 "GET /search?q=Vasco+da+gama%2C+Goa&format=json&limit=1 HTTP/11" 200 429
+2025-10-18 00:37:29,073 - DEBUG - Starting new HTTPS connection (1): api.openrouteservice.org:443
+2025-10-18 00:37:30,388 - DEBUG - https://api.openrouteservice.org:443 "POST /v2/directions/driving-car HTTP/11" 200 None
+2025-10-18 00:38:05,351 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-18 00:38:45,439 - DEBUG - Converted retries value: 2 -> Retry(total=2, connect=None, read=None, redirect=None, status=None)
+2025-10-18 00:38:45,439 - DEBUG - Converted retries value: 2 -> Retry(total=2, connect=None, read=None, redirect=None, status=None)
+2025-10-18 00:38:45,440 - DEBUG - Nominatim.geocode: https://nominatim.openstreetmap.org/search?q=HUBLI%2C+KA&format=json&limit=1
+2025-10-18 00:38:45,440 - DEBUG - Starting new HTTPS connection (1): nominatim.openstreetmap.org:443
+2025-10-18 00:38:46,106 - DEBUG - https://nominatim.openstreetmap.org:443 "GET /search?q=HUBLI%2C+KA&format=json&limit=1 HTTP/11" 200 452
+2025-10-18 00:38:46,107 - DEBUG - RateLimiter sleep(0.33322339999722317)
+2025-10-18 00:38:46,441 - DEBUG - Nominatim.geocode: https://nominatim.openstreetmap.org/search?q=Vasco+da+gama%2C+Goa&format=json&limit=1
+2025-10-18 00:38:47,211 - DEBUG - https://nominatim.openstreetmap.org:443 "GET /search?q=Vasco+da+gama%2C+Goa&format=json&limit=1 HTTP/11" 200 429
+2025-10-18 00:38:47,212 - DEBUG - Starting new HTTPS connection (1): api.openrouteservice.org:443
+2025-10-18 00:38:48,370 - DEBUG - https://api.openrouteservice.org:443 "POST /v2/directions/driving-car HTTP/11" 200 None
+2025-10-18 00:39:04,977 - ERROR - Internal Server Error: /manufacturer/analyze-supplier/12/
+2025-10-18 02:02:24,723 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-18 02:14:18,489 - WARNING - Not Found: /api/placeholder/300/300
+2025-10-18 02:21:38,093 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-18 02:21:55,508 - WARNING - Not Found: /api/placeholder/300/300
+2025-10-18 02:29:32,263 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-18 02:30:09,267 - WARNING - Not Found: /api/placeholder/300/300
+2025-10-18 02:36:04,249 - WARNING - Not Found: /api/placeholder/600/400
+2025-10-18 05:14:44,925 - WARNING - Not Found: /api/placeholder/600/400

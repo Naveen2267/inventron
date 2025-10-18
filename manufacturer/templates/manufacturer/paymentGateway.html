@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escrow Payment System | Supply Chain Portal</title>
+    <title>Payment System | Supply Chain Portal</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -115,6 +115,14 @@
     position: relative;
 }
 
+.qr-preview {
+    max-width: 200px;
+    max-height: 200px;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
 @media (max-width: 768px) {
     .nav-menu {
         display: none;
@@ -181,8 +189,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Welcome Banner -->
             <div class="mb-10 bg-blue-600 rounded-xl shadow-md p-8 text-white">
-                <h1 class="text-3xl font-bold mb-2">Smart Contract Escrow System</h1>
-                <p class="text-lg text-blue-100">Secure blockchain-based payment processing for supply chain transactions.</p>
+                <h1 class="text-3xl font-bold mb-2">UPI Payment System</h1>
+                <p class="text-lg text-blue-100">Secure UPI-based payment processing for supply chain transactions.</p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-10">
@@ -199,21 +207,21 @@
                                     <span class="font-medium">{{ supplier_name }}</span>
                                 </p>
                                 <p class="text-gray-700 mt-1">
-                                    Wallet address:
+                                    UPI ID:
                                     <span id="supplierAddressDisplay" class="text-sm font-mono text-gray-600 break-all"></span>
                                 </p>
                                 <p class="text-gray-700 mt-1">
                                     Negotiation Amount:
-                                    <span class="font-medium">{{ amount }} ETH</span>
+                                    <span class="font-medium">₹{{ amount }}</span>
                                 </p>
                             </div>
                             <div>
                                 <button id="connectWallet" class="w-full button-primary flex items-center justify-center space-x-2">
-                                    <i class="fas fa-wallet mr-2"></i>
-                                    <span>Connect Wallet</span>
+                                    <i class="fas fa-user-check mr-2"></i>
+                                    <span>Verify Identity</span>
                                 </button>
                                 <p id="walletStatus" class="mt-2 text-center text-gray-600">
-                                    Not connected
+                                    Not verified
                                 </p>
                             </div>
                         </div>
@@ -223,7 +231,7 @@
                     <div class="bg-white rounded-xl shadow-md p-6 dashboard-card">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                             <i class="fas fa-terminal mr-2 text-blue-600"></i>
-                            Debug Console
+                            Activity Log
                         </h3>
                         <div id="debugConsole" class="debug-console"></div>
                     </div>
@@ -232,7 +240,7 @@
                 <!-- Right Column - Payment Process -->
                 <div class="md:col-span-2 space-y-8">
                     <div class="bg-white rounded-xl shadow-md p-8 dashboard-card">
-                        <h2 class="text-2xl font-semibold text-blue-700 mb-6">Escrow Payment Process</h2>
+                        <h2 class="text-2xl font-semibold text-blue-700 mb-6">Payment Process</h2>
                         <p id="statusMessage" class="mb-6 text-gray-600">
                             Complete the following steps to process your payment securely.
                         </p>
@@ -240,18 +248,18 @@
                         <!-- Step 1 -->
                         <div class="step-container mb-8 pl-12 relative">
                             <div class="step-number absolute left-0 top-0">1</div>
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Deploy Escrow Contract</h2>
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Initialize Payment Agreement</h2>
                             <div class="space-y-4">
                                 <div class="flex flex-col md:flex-row gap-4">
-                                    <input type="text" id="supplierAddress" placeholder="Enter supplier address (0x...)" 
+                                    <input type="text" id="supplierAddress" placeholder="Enter supplier UPI ID" 
                                            value="{{ supplier_address }}" 
                                            class="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" />
-                                    <input type="number" id="totalAmount" placeholder="Total Payment Amount in ETH" 
+                                    <input type="number" id="totalAmount" placeholder="Total Payment Amount in INR" 
                                            value="{{ amount }}" step="0.01" min="0.01" 
                                            class="w-full md:w-48 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" />
                                 </div>
                                 <button id="deployEscrow" class="button-primary">
-                                    <i class="fas fa-file-contract mr-2"></i> Deploy Escrow
+                                    <i class="fas fa-file-contract mr-2"></i> Create Payment Agreement
                                 </button>
                                 <p id="escrowAddress" class="hidden mt-2 p-2 bg-green-50 text-green-700 rounded-md"></p>
                             </div>
@@ -260,10 +268,28 @@
                         <!-- Step 2 -->
                         <div class="step-container mb-8 pl-12 relative">
                             <div class="step-number absolute left-0 top-0">2</div>
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Deposit Funds</h2>
-                            <button id="depositFunds" class="hidden button-primary">
-                                <i class="fas fa-coins mr-2"></i> Deposit ETH to Escrow
-                            </button>
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Upload Payment Proof</h2>
+                            <div class="hidden" id="depositSection">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Upload QR Code Screenshot</label>
+                                        <input type="file" id="qrUpload" accept="image/*" 
+                                               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+                                        <div id="qrPreview" class="mt-3 hidden">
+                                            <img id="qrImage" class="qr-preview" alt="QR Code Preview" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Enter UTR Number</label>
+                                        <input type="text" id="utrNumber" placeholder="Enter 12-digit UTR number" 
+                                               maxlength="12" pattern="[0-9]{12}"
+                                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" />
+                                    </div>
+                                    <button id="depositFunds" class="button-primary">
+                                        <i class="fas fa-upload mr-2"></i> Submit Payment Proof
+                                    </button>
+                                </div>
+                            </div>
                             <p id="depositStatus" class="hidden mt-2 p-2 bg-blue-50 text-blue-700 rounded-md"></p>
                         </div>
 
@@ -272,7 +298,7 @@
                             <div class="step-number absolute left-0 top-0">3</div>
                             <h2 class="text-xl font-semibold text-gray-800 mb-4">Release Advance (50%)</h2>
                             <button id="releaseAdvance" class="hidden button-primary">
-                                <i class="fas fa-paper-plane mr-2"></i> Release Advance
+                                <i class="fas fa-paper-plane mr-2"></i> Approve Advance Payment
                             </button>
                             <p id="advanceStatus" class="hidden mt-2 p-2 bg-blue-50 text-blue-700 rounded-md"></p>
                         </div>
@@ -282,7 +308,7 @@
                             <div class="step-number absolute left-0 top-0">4</div>
                             <h2 class="text-xl font-semibold text-gray-800 mb-4">Release Final Payment (50%)</h2>
                             <button id="releaseFullPayment" class="hidden button-primary">
-                                <i class="fas fa-check-circle mr-2"></i> Release Final Payment
+                                <i class="fas fa-check-circle mr-2"></i> Approve Final Payment
                             </button>
                             <p id="fullPaymentStatus" class="hidden mt-2 p-2 bg-blue-50 text-blue-700 rounded-md"></p>
                         </div>
@@ -293,7 +319,7 @@
                             <h2 class="text-xl font-semibold text-gray-800 mb-4">Deduct Penalty</h2>
                             <div class="flex items-center">
                                 <button id="deductPenalty" class="hidden button-primary bg-yellow-500 hover:bg-yellow-600">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i> Deduct Penalty
+                                    <i class="fas fa-exclamation-triangle mr-2"></i> Apply Penalty
                                 </button>
                                 <span class="ml-3 text-gray-500 text-sm">(Alternative to Step 4 if supplier performance is unsatisfactory)</span>
                             </div>
@@ -310,8 +336,8 @@
                                     <i class="fas fa-shield-alt text-blue-600"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-medium text-lg mb-1">Escrow Security</h3>
-                                    <p class="text-gray-600">Our smart contract escrow system guarantees secure transactions between manufacturers and suppliers.</p>
+                                    <h3 class="font-medium text-lg mb-1">Payment Security</h3>
+                                    <p class="text-gray-600">Our UPI payment system guarantees secure transactions between manufacturers and suppliers with verified payment proofs.</p>
                                 </div>
                             </div>
                             
@@ -331,7 +357,7 @@
                                 </div>
                                 <div>
                                     <h3 class="font-medium text-lg mb-1">Important Notice</h3>
-                                    <p class="text-gray-600">Make sure to verify the supplier's wallet address before deploying the escrow contract.</p>
+                                    <p class="text-gray-600">Make sure to verify the supplier's UPI ID and keep your payment QR code screenshot and UTR number safe.</p>
                                 </div>
                             </div>
                         </div>
@@ -411,7 +437,6 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -428,9 +453,17 @@
           urlParams.get("supplier_address");
       });
 
-      let provider, signer, factoryContract, escrowContract;
-      let escrowAddress = "";
-      let userAddress = "";
+      let paymentData = {
+        id: '',
+        supplierUPI: '',
+        totalAmount: 0,
+        qrImage: null,
+        utrNumber: '',
+        advanceReleased: false,
+        fullPaymentReleased: false,
+        penaltyApplied: false
+      };
+      let userName = "";
 
       // Debugging utility
       function debugLog(message, isError = false) {
@@ -451,10 +484,8 @@
         messageDiv.appendChild(msgSpan);
         consoleDiv.appendChild(messageDiv);
 
-        // Auto-scroll to bottom
         consoleDiv.scrollTop = consoleDiv.scrollHeight;
 
-        // Also log to browser console
         if (isError) {
           console.error(message);
         } else {
@@ -462,606 +493,284 @@
         }
       }
 
-      // Factory contract address
-      const factoryAddress = "0xaEcE4f81959EDE13e64c759D4ea5eaDa458D700C";
-
-      // Factory contract ABI
-      const factoryAbi = [
-        {
-          inputs: [
-            { internalType: "address", name: "_supplier", type: "address" },
-            { internalType: "uint256", name: "_totalAmount", type: "uint256" },
-          ],
-          name: "createEscrow",
-          outputs: [{ internalType: "address", name: "", type: "address" }],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            { indexed: true, name: "escrowAddress", type: "address" },
-            { indexed: true, name: "manufacturer", type: "address" },
-            { indexed: true, name: "supplier", type: "address" },
-            { name: "totalAmount", type: "uint256" },
-          ],
-          name: "EscrowCreated",
-          type: "event",
-        },
-      ];
-
-      // Updated Escrow contract ABI with SupplierPartialPayment event
-      const escrowAbi = [
-        {
-          inputs: [],
-          name: "deposit",
-          outputs: [],
-          stateMutability: "payable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "releaseAdvance",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "releaseFullPayment",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "deductPenalty",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "manufacturer",
-          outputs: [{ internalType: "address", name: "", type: "address" }],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "supplier",
-          outputs: [{ internalType: "address", name: "", type: "address" }],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "totalAmount",
-          outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "advanceReleased",
-          outputs: [{ internalType: "bool", name: "", type: "bool" }],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "fullPaymentReleased",
-          outputs: [{ internalType: "bool", name: "", type: "bool" }],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "getBalance",
-          outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          anonymous: false,
-          inputs: [{ indexed: false, name: "amount", type: "uint256" }],
-          name: "FundsDeposited",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [{ indexed: false, name: "amount", type: "uint256" }],
-          name: "AdvanceReleased",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [{ indexed: false, name: "amount", type: "uint256" }],
-          name: "FullPaymentReleased",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [{ indexed: false, name: "amount", type: "uint256" }],
-          name: "PenaltyDeducted",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [{ indexed: false, name: "amount", type: "uint256" }],
-          name: "SupplierPartialPayment",
-          type: "event",
-        },
-      ];
-
-      // Connect MetaMask
-      // Wallet connection function
+      // Verify Identity (replaces wallet connection)
       document.getElementById("connectWallet").onclick = async () => {
         try {
-          debugLog("Attempting to connect wallet...");
+          debugLog("Verifying user identity...");
 
-          // Check if MetaMask is installed
-          if (!window.ethereum) {
-            throw new Error("Please install MetaMask or another Web3 wallet");
+          // Simulate identity verification
+          userName = prompt("Please enter your name for verification:");
+          
+          if (!userName || userName.trim() === "") {
+            throw new Error("Name is required for verification");
           }
 
-          // Initialize Web3 provider
-          provider = new ethers.providers.Web3Provider(window.ethereum);
-          debugLog("Web3 provider initialized");
+          userName = userName.trim();
+          debugLog(`Identity verified: ${userName}`);
 
-          // Request account access
-          const accounts = await provider.send("eth_requestAccounts", []);
-          userAddress = accounts[0];
-          debugLog(`Connected account: ${userAddress}`);
+          document.getElementById("walletStatus").textContent = `Verified: ${userName}`;
+          document.getElementById("walletStatus").className = "status-success mt-2 text-center";
 
-          // Get signer
-          signer = provider.getSigner();
-
-          // Update UI
-          document.getElementById(
-            "walletStatus"
-          ).textContent = `Connected: ${userAddress.substring(
-            0,
-            6
-          )}...${userAddress.substring(38)}`;
-          document.getElementById("walletStatus").className = "status";
-
-          debugLog("Wallet connected successfully");
-
-          // Initialize contract instances
-          factoryContract = new ethers.Contract(
-            factoryAddress,
-            factoryAbi,
-            signer
-          );
-          debugLog("Factory contract instance created");
+          debugLog("Identity verification successful");
         } catch (error) {
-          debugLog(`Wallet connection failed: ${error.message}`, true);
-          document.getElementById(
-            "walletStatus"
-          ).textContent = `Error: ${error.message}`;
-          document.getElementById("walletStatus").className = "error";
+          debugLog(`Identity verification failed: ${error.message}`, true);
+          document.getElementById("walletStatus").textContent = `Error: ${error.message}`;
+          document.getElementById("walletStatus").className = "status-error mt-2 text-center";
         }
       };
 
-      // Deploy a new escrow contract
+      // Create payment agreement
       document.getElementById("deployEscrow").onclick = async () => {
         const btn = document.getElementById("deployEscrow");
         const originalText = btn.textContent;
         try {
-          // Check if wallet is connected
-          if (!signer) throw new Error("Please connect your wallet first");
+          if (!userName) throw new Error("Please verify your identity first");
 
-          // Now safe to access inputs
-          const supplierAddress = document
-            .getElementById("supplierAddress")
-            .value.trim();
-          const totalAmountInput = document
-            .getElementById("totalAmount")
-            .value.trim();
+          const supplierUPI = document.getElementById("supplierAddress").value.trim();
+          const totalAmountInput = document.getElementById("totalAmount").value.trim();
 
-          if (!supplierAddress) throw new Error("Supplier address is required");
+          if (!supplierUPI) throw new Error("Supplier UPI ID is required");
           if (!totalAmountInput) throw new Error("Total amount is required");
-          if (!ethers.utils.isAddress(supplierAddress))
-            throw new Error("Invalid supplier address");
-
-          const totalAmount = ethers.utils.parseEther(totalAmountInput);
-          if (totalAmount.lte(0))
-            throw new Error("Amount must be greater than 0");
+          
+          const totalAmount = parseFloat(totalAmountInput);
+          if (totalAmount <= 0) throw new Error("Amount must be greater than 0");
 
           btn.disabled = true;
-          btn.textContent = "Deploying...";
-          debugLog("Sending deployment transaction...");
+          btn.textContent = "Creating Agreement...";
+          debugLog("Creating payment agreement...");
 
-          const tx = await factoryContract.createEscrow(
-            supplierAddress,
-            totalAmount
-          );
-          debugLog(`Transaction sent: ${tx.hash}`);
+          // Simulate agreement creation
+          await new Promise(resolve => setTimeout(resolve, 1500));
 
-          document.getElementById("statusMessage").textContent =
-            "Transaction sent, waiting for confirmation...";
-          document.getElementById("statusMessage").className = "";
+          paymentData.id = 'PAY-' + Date.now();
+          paymentData.supplierUPI = supplierUPI;
+          paymentData.totalAmount = totalAmount;
 
-          const receipt = await tx.wait();
-          debugLog(`Transaction mined in block: ${receipt.blockNumber}`);
-          debugLog(`Gas used: ${receipt.gasUsed.toString()}`);
+          debugLog(`Payment agreement created: ${paymentData.id}`);
 
-          // Parse the event to get the escrow address
-          const event = receipt.events?.find(
-            (e) => e.event === "EscrowCreated"
-          );
-          if (!event)
-            throw new Error("EscrowCreated event not found in receipt");
-
-          escrowAddress = event.args.escrowAddress;
-          debugLog(`Escrow deployed at: ${escrowAddress}`);
-
-          document.getElementById(
-            "escrowAddress"
-          ).textContent = `Escrow Deployed at: ${escrowAddress}`;
+          document.getElementById("escrowAddress").textContent = `Payment Agreement ID: ${paymentData.id}`;
           document.getElementById("escrowAddress").classList.remove("hidden");
 
-          // Initialize escrow contract instance
-          escrowContract = new ethers.Contract(
-            escrowAddress,
-            escrowAbi,
-            signer
-          );
-          debugLog("Escrow contract instance created");
-
-          // Show deposit button (new step)
-          document.getElementById("depositFunds").classList.remove("hidden");
+          document.getElementById("depositSection").classList.remove("hidden");
 
           document.getElementById("statusMessage").textContent =
-            "Escrow deployed successfully! Now deposit funds.";
-          document.getElementById("statusMessage").className = "success";
+            "Agreement created successfully! Now upload payment proof.";
+          document.getElementById("statusMessage").className = "mb-6 text-green-600 font-medium";
 
-          // Log contract details
-          const [manufacturer, supplier, amount] = await Promise.all([
-            escrowContract.manufacturer(),
-            escrowContract.supplier(),
-            escrowContract.totalAmount(),
-          ]);
-          debugLog(`Contract initialized with:
-              Manufacturer: ${manufacturer}
-              Supplier: ${supplier}
-              Amount: ${ethers.utils.formatEther(amount)} ETH`);
+          debugLog(`Agreement initialized:
+              Payer: ${userName}
+              Supplier UPI: ${supplierUPI}
+              Amount: ₹${totalAmount}`);
         } catch (error) {
-          debugLog(`Escrow deployment failed: ${error.message}`, true);
-          document.getElementById(
-            "statusMessage"
-          ).textContent = `Error: ${error.message}`;
-          document.getElementById("statusMessage").className = "error";
+          debugLog(`Agreement creation failed: ${error.message}`, true);
+          document.getElementById("statusMessage").textContent = `Error: ${error.message}`;
+          document.getElementById("statusMessage").className = "mb-6 text-red-600 font-medium";
         } finally {
           btn.disabled = false;
           btn.textContent = originalText;
         }
       };
 
-      // Deposit funds into escrow
-      document.getElementById("depositFunds").onclick = async () => {
+      // QR Code upload preview
+      document.getElementById("qrUpload").onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          debugLog(`QR code image selected: ${file.name}`);
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            document.getElementById("qrImage").src = event.target.result;
+            document.getElementById("qrPreview").classList.remove("hidden");
+            escrowData.qrImage = event.target.result;
+            debugLog("QR code preview loaded");
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+
+      // Submit payment proof
+      document.getElementById("depositFunds").onclick = async () => {     
         const btn = document.getElementById("depositFunds");
         const statusElement = document.getElementById("depositStatus");
         const originalText = btn.textContent;
 
         try {
-          if (!escrowContract)
-            throw new Error("Escrow contract not initialized");
+          const escrowObj = (typeof paymentData !== "undefined")
+            ? paymentData
+            : (typeof escrowData !== "undefined" ? escrowData : {});
 
-          const totalAmountInput = document
-            .getElementById("totalAmount")
-            .value.trim();
-          if (!totalAmountInput) throw new Error("Total amount is required");
+          if (!escrowObj.id) throw new Error("Escrow agreement not initialized");
 
-          const amount = ethers.utils.parseEther(totalAmountInput);
-          debugLog(`Attempting to deposit ${totalAmountInput} ETH into escrow`);
+          const utrNumber = document.getElementById("utrNumber").value.trim();
+
+          // prefer qr stored on paymentData but accept escrowData if present
+          const qrPresent = (escrowObj.qrImage && escrowObj.qrImage.length > 0);
+
+          if (!qrPresent) throw new Error("Please upload QR code screenshot");
+          if (!utrNumber) throw new Error("UTR number is required");
+          if (!/^\d{12}$/.test(utrNumber)) throw new Error("UTR must be 12 digits");
+
+          debugLog(`Submitting payment proof with UTR: ${utrNumber}`);
 
           btn.disabled = true;
-          btn.textContent = "Depositing...";
-          statusElement.textContent = `Depositing ${totalAmountInput} ETH...`;
-          statusElement.className = "";
+          btn.textContent = "Submitting...";
+          statusElement.textContent = `Verifying payment proof...`;
+          statusElement.className = "mt-2 p-2 bg-blue-50 text-blue-700 rounded-md";
           statusElement.classList.remove("hidden");
 
-          // Listen for deposit event
-          escrowContract.on("FundsDeposited", (amount) => {
-            const ethAmount = ethers.utils.formatEther(amount);
-            debugLog(`Event: FundsDeposited - ${ethAmount} ETH`);
-            statusElement.textContent = `Deposited ${ethAmount} ETH into escrow`;
-            statusElement.className = "success";
-          });
+          // Simulate verification
+          await new Promise(resolve => setTimeout(resolve, 2000));
 
-          const tx = await escrowContract.deposit({ value: amount });
-          debugLog(`Deposit transaction sent: ${tx.hash}`);
+          // persist UTR and mark proof received
+          escrowObj.utrNumber = utrNumber;
+          escrowObj.qrVerified = true;
 
-          document.getElementById("statusMessage").textContent =
-            "Deposit transaction sent...";
-          document.getElementById("statusMessage").className = "";
+          // if both objects exist mirror values
+          if (typeof paymentData !== "undefined" && escrowObj !== paymentData) {
+            paymentData.utrNumber = utrNumber;
+            paymentData.qrVerified = true;
+          }
+          if (typeof escrowData !== "undefined" && escrowObj !== escrowData) {
+            escrowData.utrNumber = utrNumber;
+            escrowData.qrVerified = true;
+          }
 
-          const receipt = await tx.wait();
-          debugLog(`Deposit confirmed in block: ${receipt.blockNumber}`);
+          debugLog(`Payment proof submitted and verified for ${escrowObj.id}`);
 
-          // Show next steps
+          statusElement.textContent = `Payment proof verified. UTR: ${utrNumber}`;
+          statusElement.className = "mt-2 p-2 bg-green-50 text-green-700 rounded-md";
+          statusElement.classList.remove("hidden");
+
+          // Reveal next actions
           document.getElementById("releaseAdvance").classList.remove("hidden");
           document.getElementById("deductPenalty").classList.remove("hidden");
 
-          document.getElementById("statusMessage").textContent =
-            "Funds deposited! You can now release payments.";
-          document.getElementById("statusMessage").className = "success";
+          // Disable inputs to prevent re-submission
+          document.getElementById("qrUpload").disabled = true;
+          document.getElementById("utrNumber").disabled = true;
 
-          // Check new balance
-          const balance = await escrowContract.getBalance();
-          debugLog(
-            `Current contract balance: ${ethers.utils.formatEther(balance)} ETH`
-          );
+          // Prepare advance release handler (50%)
+          const releaseAdvanceBtn = document.getElementById("releaseAdvance");
+          const advanceStatus = document.getElementById("advanceStatus");
+          releaseAdvanceBtn.onclick = async () => {
+            try {
+              if (escrowObj.advanceReleased) throw new Error("Advance already released");
+              releaseAdvanceBtn.disabled = true;
+              releaseAdvanceBtn.textContent = "Releasing Advance...";
+              advanceStatus.className = "mt-2 p-2 bg-blue-50 text-blue-700 rounded-md";
+              advanceStatus.classList.remove("hidden");
+              advanceStatus.textContent = "Releasing 50% advance...";
+
+              debugLog("Releasing advance (50%) to supplier...");
+
+              await new Promise(resolve => setTimeout(resolve, 1500));
+
+              escrowObj.advanceReleased = true;
+              if (typeof paymentData !== "undefined") paymentData.advanceReleased = true;
+              if (typeof escrowData !== "undefined") escrowData.advanceReleased = true;
+
+              advanceStatus.textContent = `Advance (50%) released to ${escrowObj.supplierUPI || "supplier"}.`;
+              advanceStatus.className = "mt-2 p-2 bg-green-50 text-green-700 rounded-md";
+
+              debugLog("Advance payment released");
+
+              // Reveal final payment button
+              document.getElementById("releaseFullPayment").classList.remove("hidden");
+              releaseAdvanceBtn.classList.add("hidden");
+            } catch (err) {
+              debugLog(`Advance release failed: ${err.message}`, true);
+              advanceStatus.textContent = `Error: ${err.message}`;
+              advanceStatus.className = "mt-2 p-2 bg-red-50 text-red-700 rounded-md";
+            } finally {
+              releaseAdvanceBtn.disabled = false;
+              releaseAdvanceBtn.textContent = "Approve Advance Payment";
+            }
+          };
+
+          // Final payment handler (remaining 50%)
+          const releaseFullBtn = document.getElementById("releaseFullPayment");
+          const fullStatus = document.getElementById("fullPaymentStatus");
+          releaseFullBtn.onclick = async () => {
+            try {
+              if (!escrowObj.advanceReleased) throw new Error("Advance not yet released");
+              if (escrowObj.fullPaymentReleased) throw new Error("Full payment already released");
+
+              releaseFullBtn.disabled = true;
+              releaseFullBtn.textContent = "Releasing Final Payment...";
+              fullStatus.className = "mt-2 p-2 bg-blue-50 text-blue-700 rounded-md";
+              fullStatus.classList.remove("hidden");
+              fullStatus.textContent = "Releasing final payment (50%)...";
+
+              debugLog("Releasing final payment (50%) to supplier...");
+
+              await new Promise(resolve => setTimeout(resolve, 1500));
+
+              escrowObj.fullPaymentReleased = true;
+              if (typeof paymentData !== "undefined") paymentData.fullPaymentReleased = true;
+              if (typeof escrowData !== "undefined") escrowData.fullPaymentReleased = true;
+
+              fullStatus.textContent = `Final payment released to ${escrowObj.supplierUPI || "supplier"}.`;
+              fullStatus.className = "mt-2 p-2 bg-green-50 text-green-700 rounded-md";
+
+              debugLog("Final payment released");
+
+              releaseFullBtn.classList.add("hidden");
+              // Optionally mark agreement complete in UI
+              document.getElementById("statusMessage").textContent = "Payment completed successfully.";
+              document.getElementById("statusMessage").className = "mb-6 text-green-600 font-medium";
+            } catch (err) {
+              debugLog(`Final payment failed: ${err.message}`, true);
+              fullStatus.textContent = `Error: ${err.message}`;
+              fullStatus.className = "mt-2 p-2 bg-red-50 text-red-700 rounded-md";
+            } finally {
+              releaseFullBtn.disabled = false;
+              releaseFullBtn.textContent = "Approve Final Payment";
+            }
+          };
+
+          // Penalty handler (alternative to final payment)
+          const penaltyBtn = document.getElementById("deductPenalty");
+          const penaltyStatus = document.getElementById("penaltyStatus");
+          penaltyBtn.onclick = async () => {
+            try {
+              if (escrowObj.penaltyApplied) throw new Error("Penalty already applied");
+
+              penaltyBtn.disabled = true;
+              penaltyBtn.textContent = "Applying Penalty...";
+              penaltyStatus.className = "mt-2 p-2 bg-yellow-50 text-yellow-700 rounded-md";
+              penaltyStatus.classList.remove("hidden");
+              penaltyStatus.textContent = "Applying penalty and adjusting release...";
+
+              debugLog("Applying penalty to supplier settlement...");
+
+              await new Promise(resolve => setTimeout(resolve, 1200));
+
+              escrowObj.penaltyApplied = true;
+              if (typeof paymentData !== "undefined") paymentData.penaltyApplied = true;
+              if (typeof escrowData !== "undefined") escrowData.penaltyApplied = true;
+
+              penaltyStatus.textContent = "Penalty applied. Final payment adjusted.";
+              penaltyStatus.className = "mt-2 p-2 bg-yellow-50 text-yellow-700 rounded-md";
+
+              debugLog("Penalty applied");
+
+              // hide final payment button when penalty applied
+              document.getElementById("releaseFullPayment").classList.add("hidden");
+            } catch (err) {
+              debugLog(`Penalty application failed: ${err.message}`, true);
+              penaltyStatus.textContent = `Error: ${err.message}`;
+              penaltyStatus.className = "mt-2 p-2 bg-red-50 text-red-700 rounded-md";
+            } finally {
+              penaltyBtn.disabled = false;
+              penaltyBtn.textContent = "Apply Penalty";
+            }
+          };
         } catch (error) {
-          debugLog(`Deposit failed: ${error.message}`, true);
-          document.getElementById(
-            "statusMessage"
-          ).textContent = `Error: ${error.message}`;
-          document.getElementById("statusMessage").className = "error";
+          debugLog(`Deposit submission failed: ${error.message}`, true);
           statusElement.textContent = `Error: ${error.message}`;
-          statusElement.className = "error";
-        } finally {
-          btn.disabled = false;
-          btn.textContent = originalText;
-          escrowContract.removeAllListeners("FundsDeposited");
-        }
-      };
-
-      // Release advance payment
-      document.getElementById("releaseAdvance").onclick = async () => {
-        const btn = document.getElementById("releaseAdvance");
-        const statusElement = document.getElementById("advanceStatus");
-        const originalText = btn.textContent;
-
-        try {
-          if (!escrowContract)
-            throw new Error("Escrow contract not initialized");
-
-          debugLog("Attempting to release advance payment...");
-
-          btn.disabled = true;
-          btn.textContent = "Processing...";
-          statusElement.textContent = "Releasing advance payment...";
-          statusElement.className = "";
+          statusElement.className = "mt-2 p-2 bg-red-50 text-red-700 rounded-md";
           statusElement.classList.remove("hidden");
-
-          // Listen for advance release event
-          escrowContract.on("AdvanceReleased", (amount) => {
-            const ethAmount = ethers.utils.formatEther(amount);
-            debugLog(`Event: AdvanceReleased - ${ethAmount} ETH`);
-            statusElement.textContent = `Released advance of ${ethAmount} ETH to supplier`;
-            statusElement.className = "success";
-          });
-
-          const tx = await escrowContract.releaseAdvance({ gasLimit: 100000 });
-          debugLog(`Release advance transaction sent: ${tx.hash}`);
-
-          document.getElementById("statusMessage").textContent =
-            "Releasing advance...";
-          document.getElementById("statusMessage").className = "";
-
-          const receipt = await tx.wait();
-          debugLog(
-            `Advance release confirmed in block: ${receipt.blockNumber}`
-          );
-
-          // Show final payment button
-          document
-            .getElementById("releaseFullPayment")
-            .classList.remove("hidden");
-
-          document.getElementById("statusMessage").textContent =
-            "Advance payment released!";
-          document.getElementById("statusMessage").className = "success";
-
-          // Check contract state
-          const [released, balance] = await Promise.all([
-            escrowContract.advanceReleased(),
-            escrowContract.getBalance(),
-          ]);
-          debugLog(
-            `Advance released: ${released}, Remaining balance: ${ethers.utils.formatEther(
-              balance
-            )} ETH`
-          );
-        } catch (error) {
-          debugLog(`Advance release failed: ${error.message}`, true);
-          document.getElementById(
-            "statusMessage"
-          ).textContent = `Error: ${error.message}`;
-          document.getElementById("statusMessage").className = "error";
-          statusElement.textContent = `Error: ${error.message}`;
-          statusElement.className = "error";
         } finally {
           btn.disabled = false;
           btn.textContent = originalText;
-          escrowContract.removeAllListeners("AdvanceReleased");
         }
-      };
-
-      // Release full payment
-      document.getElementById("releaseFullPayment").onclick = async () => {
-        const btn = document.getElementById("releaseFullPayment");
-        const statusElement = document.getElementById("fullPaymentStatus");
-        const originalText = btn.textContent;
-
-        try {
-          if (!escrowContract)
-            throw new Error("Escrow contract not initialized");
-
-          debugLog("Attempting to release final payment...");
-
-          btn.disabled = true;
-          btn.textContent = "Processing...";
-          statusElement.textContent = "Releasing final payment...";
-          statusElement.className = "";
-          statusElement.classList.remove("hidden");
-
-          // Listen for full payment event
-          escrowContract.on("FullPaymentReleased", (amount) => {
-            const ethAmount = ethers.utils.formatEther(amount);
-            debugLog(`Event: FullPaymentReleased - ${ethAmount} ETH`);
-            statusElement.textContent = `Released final payment of ${ethAmount} ETH to supplier`;
-            statusElement.className = "success";
-          });
-
-          const tx = await escrowContract.releaseFullPayment({
-            gasLimit: 100000,
-          });
-          debugLog(`Final payment transaction sent: ${tx.hash}`);
-
-          document.getElementById("statusMessage").textContent =
-            "Releasing final payment...";
-          document.getElementById("statusMessage").className = "";
-
-          const receipt = await tx.wait();
-          debugLog(`Final payment confirmed in block: ${receipt.blockNumber}`);
-
-          // Hide penalty button
-          document.getElementById("deductPenalty").style.display = "none";
-
-          document.getElementById("statusMessage").textContent =
-            "All payments completed!";
-          document.getElementById("statusMessage").className = "success";
-
-          // Check final state
-          const [advanceReleased, fullReleased, balance] = await Promise.all([
-            escrowContract.advanceReleased(),
-            escrowContract.fullPaymentReleased(),
-            escrowContract.getBalance(),
-          ]);
-          debugLog(`Final state:
-              Advance released: ${advanceReleased}
-              Full payment released: ${fullReleased}
-              Contract balance: ${ethers.utils.formatEther(balance)} ETH`);
-        } catch (error) {
-          debugLog(`Final payment failed: ${error.message}`, true);
-          document.getElementById(
-            "statusMessage"
-          ).textContent = `Error: ${error.message}`;
-          document.getElementById("statusMessage").className = "error";
-          statusElement.textContent = `Error: ${error.message}`;
-          statusElement.className = "error";
-        } finally {
-          btn.disabled = false;
-          btn.textContent = originalText;
-          escrowContract.removeAllListeners("FullPaymentReleased");
-        }
-      };
-
-      // Deduct penalty (updated for 50/50 split)
-      document.getElementById("deductPenalty").onclick = async () => {
-        const btn = document.getElementById("deductPenalty");
-        const statusElement = document.getElementById("penaltyStatus");
-        const originalText = btn.textContent;
-
-        try {
-          if (!escrowContract)
-            throw new Error("Escrow contract not initialized");
-
-          debugLog(
-            "Attempting to deduct penalty and send remaining to supplier..."
-          );
-
-          // First check contract state
-          const [advanceReleased, fullReleased, balance] = await Promise.all([
-            escrowContract.advanceReleased(),
-            escrowContract.fullPaymentReleased(),
-            escrowContract.getBalance(),
-          ]);
-          debugLog(`Pre-penalty check:
-              Advance released: ${advanceReleased}
-              Full payment released: ${fullReleased}
-              Balance: ${ethers.utils.formatEther(balance)} ETH`);
-
-          if (!advanceReleased)
-            throw new Error("Advance must be released first");
-          if (fullReleased) throw new Error("Cannot deduct after full payment");
-          if (balance.eq(0)) throw new Error("No funds available for penalty");
-
-          btn.disabled = true;
-          btn.textContent = "Processing...";
-          statusElement.textContent =
-            "Processing penalty and partial payment...";
-          statusElement.className = "";
-          statusElement.classList.remove("hidden");
-
-          // Listen for both events
-          let penaltyAmount, supplierAmount;
-
-          escrowContract.on("PenaltyDeducted", (amount) => {
-            penaltyAmount = ethers.utils.formatEther(amount);
-            debugLog(
-              `Event: PenaltyDeducted - ${penaltyAmount} ETH to manufacturer`
-            );
-          });
-
-          escrowContract.on("SupplierPartialPayment", (amount) => {
-            supplierAmount = ethers.utils.formatEther(amount);
-            debugLog(
-              `Event: SupplierPartialPayment - ${supplierAmount} ETH to supplier`
-            );
-            statusElement.innerHTML = `
-                Penalty processed!<br>
-                • ${penaltyAmount} ETH sent to manufacturer<br>
-                • ${supplierAmount} ETH sent to supplier
-              `;
-            statusElement.className = "success";
-          });
-
-          const tx = await escrowContract.deductPenalty({ gasLimit: 100000 });
-          debugLog(`Penalty transaction sent: ${tx.hash}`);
-
-          document.getElementById("statusMessage").textContent =
-            "Processing penalty and partial payment...";
-          document.getElementById("statusMessage").className = "";
-
-          const receipt = await tx.wait();
-          debugLog(`Transaction confirmed in block: ${receipt.blockNumber}`);
-
-          // Hide payment buttons after penalty
-          document.getElementById("releaseFullPayment").style.display = "none";
-          document.getElementById("deductPenalty").style.display = "none";
-
-          document.getElementById("statusMessage").textContent =
-            "Penalty and partial payment completed!";
-          document.getElementById("statusMessage").className = "success";
-
-          // Verify final state
-          const newBalance = await escrowContract.getBalance();
-          debugLog(
-            `Final contract balance: ${ethers.utils.formatEther(
-              newBalance
-            )} ETH (should be 0)`
-          );
-        } catch (error) {
-          let errorMsg = error.message;
-          if (error.message.includes("execution reverted")) {
-            errorMsg =
-              "Cannot process penalty. Check:\n- Advance must be released first\n- Full payment not completed\n- Contract has sufficient balance";
-          }
-
-          debugLog(`Penalty processing failed: ${errorMsg}`, true);
-          document.getElementById(
-            "statusMessage"
-          ).textContent = `Error: ${errorMsg}`;
-          document.getElementById("statusMessage").className = "error";
-          statusElement.textContent = `Error: ${error.message}`;
-          statusElement.className = "error";
-        } finally {
-          btn.disabled = false;
-          btn.textContent = originalText;
-          escrowContract.removeAllListeners("PenaltyDeducted");
-          escrowContract.removeAllListeners("SupplierPartialPayment");
-        }
-      };
-
-      // Initialize UI
-      document.addEventListener("DOMContentLoaded", () => {
-        debugLog("Application initialized");
-      });
-    </script>
-</body>
-</html>
+      }

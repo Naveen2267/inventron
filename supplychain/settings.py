@@ -133,14 +133,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # e.g., smtp.gmail.com
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'insightai.hackathonclub@gmail.com'
-EMAIL_HOST_PASSWORD = 'rfpn qirj spih hlpv'
-DEFAULT_FROM_EMAIL = 'insightai.hackathonclub@gmail.com'
+EMAIL_HOST_USER = 'naveenhanagandi125@gmail.com'
+EMAIL_HOST_PASSWORD = 'vwcb qygg bprj gtgs'
+DEFAULT_FROM_EMAIL = 'Altf4.hackathonclub@gmail.com'
 
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
+
+TAVILY_API_KEY = "TVLY-1234567890"
+GOOGLE_API_KEY = "AIzaSyD0Zu8Hzu02Ki6Ajup-9C_9LhCJpKK3R"    
 
 OPENROUTE_API_KEY = "5b3ce3597851110001cf62489fb869a41b884c29a4f0adb4581c6209"
