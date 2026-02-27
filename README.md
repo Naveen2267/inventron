@@ -6,13 +6,6 @@ A next-generation platform designed to optimize supply chain operations by combi
 
 ## 🚀 Key Features
 
-### 🔐 Blockchain-Powered Escrow System
-
-* Secure smart contract-based escrow mechanism for B2B transactions
-* 50/50 payment split: advance and final release logic
-* MetaMask integration for Ethereum-based payments
-* Penalty deduction system to enforce contractual terms
-
 ### 🔄 Manufacturer-Supplier Matching Platform
 
 * Bidirectional marketplace for manufacturers and suppliers
@@ -45,8 +38,7 @@ A next-generation platform designed to optimize supply chain operations by combi
 
 | Layer          | Technology                                  |
 | -------------- | ------------------------------------------- |
-| **Backend**    | Django 5.1.7, Python                        |
-| **Blockchain** | Ethereum, Smart Contracts, Web3.js          |
+| **Backend**    | Flask, Python                               |
 | **AI/ML**      | Google Gemini AI, Phidata                   |
 | **Database**   | SQLite with SQLAlchemy                      |
 | **Frontend**   | HTML, Tailwind CSS, JavaScript              |
@@ -99,10 +91,5 @@ A next-generation platform designed to optimize supply chain operations by combi
 4. **Access the app**
    Navigate to `http://localhost:8000` in your browser.
 
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
