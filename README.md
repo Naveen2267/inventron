@@ -1,4 +1,4 @@
-# Smart Supply Chain Management Platform with Blockchain Integration
+# Smart Supply Chain Management Platform
 
 A next-generation platform designed to optimize supply chain operations by combining **blockchain**, **AI**, and **smart logistics**. It streamlines B2B interactions, ensures secure and transparent payments, and empowers manufacturers and suppliers with real-time insights and tools.
 
